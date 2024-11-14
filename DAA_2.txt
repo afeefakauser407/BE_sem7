@@ -1,0 +1,42 @@
+class Job:
+    def __init__(self, job_id, deadline, profit):
+        self.job_id = job_id
+        self.deadline = deadline
+        self.profit = profit
+
+def job_sequencing(jobs):
+    # Sort jobs by profit in descending order
+    jobs.sort(key=lambda x: x.profit, reverse=True)
+    
+    # Find maximum deadline to determine the slot size
+    max_deadline = max(job.deadline for job in jobs)
+    slots = [-1] * max_deadline  # Initialize all slots as empty (-1)
+    
+    total_profit = 0
+    selected_jobs = []
+    
+    for job in jobs:
+        # Find a free slot for this job, starting from its deadline
+        for slot in range(job.deadline - 1, -1, -1):
+            if slots[slot] == -1:  # If slot is free
+                slots[slot] = job.job_id
+                total_profit += job.profit
+                selected_jobs.append(job.job_id)
+                break
+    
+    return selected_jobs, total_profit
+
+# Example jobs (job_id, deadline, profit)
+jobs = [
+    Job('a', 2, 100),
+    Job('b', 1, 19),
+    Job('c', 2, 27),
+    Job('d', 1, 25),
+    Job('e', 3, 15)
+]
+
+# Run job sequencing
+selected_jobs, total_profit = job_sequencing(jobs)
+
+print("Selected Jobs:", selected_jobs)
+print("Total Profit:", total_profit)

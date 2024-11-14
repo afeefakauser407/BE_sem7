@@ -1,0 +1,18 @@
+def fibonacci(n, step_counter):
+    # Base cases
+    if n <= 1:
+        return n, step_counter + 1  # Increment step count for each call
+
+    # Recursive calculation with step counter
+    fib1, steps1 = fibonacci(n - 1, step_counter + 1)
+    fib2, steps2 = fibonacci(n - 2, steps1)
+    
+    return fib1 + fib2, steps2
+
+# Input from user
+n = int(input("Enter the position in the Fibonacci sequence: "))
+
+# Initial step count is 0
+result, step_count = fibonacci(n, 0)
+print(f"Fibonacci number at position {n} is: {result}")
+print(f"Total steps taken to calculate: {step_count}")
